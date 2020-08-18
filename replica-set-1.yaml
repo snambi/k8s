@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: first-replicaset
+  labels:
+    version: 0.0.1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      project: my-web
+      role: front-end
+  template:
+    metadata:
+      labels:
+        project: my-web
+        role: front-end
+        env: dev
+    spec:
+      containers:
+      - name: hweb
+        image: nginx:latest
+

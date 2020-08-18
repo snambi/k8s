@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-env
+spec:
+  containers:
+    - name: configmap
+      image: ubuntu
+      command: ["/bin/sh", "-c", "while : ;do echo $APP_NAME; sleep 10; done"]
+      env:
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: config-example
+              key: app.properties
+      volumeMounts:
+        - name: config-volume
+          mountPath: /src/app/config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: config-example
+

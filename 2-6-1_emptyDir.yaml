@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu
+  labels:
+    name: ubuntu
+spec:
+  containers:
+    - image: ubuntu
+      command:
+        - sleep
+        - "3600"
+      imagePullPolicy: IfNotPresent
+      name: ubuntu1
+      volumeMounts:
+        - mountPath: /data-mount
+          name: data
+    - image: ubuntu
+      command:
+        - sleep
+        - "3600"
+      imagePullPolicy: IfNotPresent
+      name: ubuntu2
+      volumeMounts:
+        - mountPath: /data-pv
+          name: pv
+        - mountPath: /data-mount
+          name: data
+  volumes:
+    - name: data
+      hostPath: 
+        path: /tmp/data
+    - name: pv
+      persistentVolumeClaim: 
+        claimName: "pvclaim01"
+

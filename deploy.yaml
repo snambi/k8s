@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: nginx-pod
+  template:
+    metadata:
+      labels:
+        run: nginx-pod
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.12.2
+        ports:
+        - containerPort: 80
+        envFrom:
+          - secretRef:
+            name: swift-secret
+          - configMapRef:
+            name: swift-config
+
+
+
